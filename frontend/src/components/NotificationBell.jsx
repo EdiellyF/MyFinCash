@@ -1,28 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { Bell, Check, CheckCheck, X } from 'lucide-react';
+import { Bell, Check, CheckCheck, Loader2 } from 'lucide-react';
 import { useNotifications } from '../contexts/NotificationContext';
 import { formatRelativeTime } from '../utils/format';
 
 export default function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  
-  // Handle case where context might not be available
-  let notificationData;
-  try {
-    notificationData = useNotifications();
-  } catch (error) {
-    console.error('Notification context not available:', error);
-    notificationData = {
-      unreadCount: 0,
-      notifications: [],
-      markAsRead: () => {},
-      markAllAsRead: () => {},
-      loadNotifications: () => {},
-    };
-  }
-  
-  const { unreadCount = 0, notifications = [], markAsRead = () => {}, markAllAsRead = () => {}, loadNotifications = () => {} } = notificationData;
+  const { unreadCount, notifications, loading, markAsRead, markAllAsRead, loadNotifications } = useNotifications();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -49,14 +33,12 @@ export default function NotificationBell() {
     setIsOpen(false);
   };
 
-  const handleMarkAllRead = () => {
-    markAllAsRead();
-  };
-
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={handleToggle}
+        aria-label="Notificações"
+        aria-expanded={isOpen}
         className="relative rounded-sm border border-fincash-ink/10 p-2.5 text-fincash-ink transition hover:bg-fincash-ink/5 dark:border-fincash-cream/10 dark:text-fincash-cream dark:hover:bg-fincash-cream/5"
       >
         <Bell size={18} />
@@ -75,7 +57,7 @@ export default function NotificationBell() {
             </h3>
             {unreadCount > 0 && (
               <button
-                onClick={handleMarkAllRead}
+                onClick={markAllAsRead}
                 className="flex items-center gap-1 text-xs text-fincash-forest transition hover:text-fincash-forest/80"
               >
                 <CheckCheck size={14} />
@@ -85,7 +67,14 @@ export default function NotificationBell() {
           </div>
 
           <div className="max-h-96 overflow-y-auto">
-            {notifications.length === 0 ? (
+            {loading && notifications.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <Loader2 size={24} className="mb-2 animate-spin text-fincash-ink/30 dark:text-fincash-cream/30" />
+                <p className="text-sm text-fincash-ink/60 dark:text-fincash-cream/60">
+                  Carregando...
+                </p>
+              </div>
+            ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <Bell size={32} className="mb-2 text-fincash-ink/30 dark:text-fincash-cream/30" />
                 <p className="text-sm text-fincash-ink/60 dark:text-fincash-cream/60">

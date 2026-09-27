@@ -124,6 +124,8 @@ export default function Chat() {
   useEffect(() => {
     const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const socket = io(socketUrl, {
+      // Forma função: reavaliada a cada reconexão, evitando token expirado.
+      auth: (cb) => cb({ token: localStorage.getItem('finance_access_token') }),
       transports: ['websocket'],
       reconnection: true,
     });

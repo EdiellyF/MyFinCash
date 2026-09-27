@@ -80,7 +80,7 @@ describe('transactionService - budget notification triggers', () => {
     expect(createNotification).toHaveBeenCalledWith(
       userId,
       'budget_exceeded',
-      'Orçamento Estourado!',
+      'Orçamento Estourado! ⚠️',
       expect.stringContaining('Alimentação'),
       expect.objectContaining({
         budgetId,
