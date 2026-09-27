@@ -20,6 +20,7 @@ import statsRoutes from './routes/statsRoutes.js';
 import categorizationRoutes from './routes/categorizationRoutes.js';
 import debugRoutes from './routes/debugRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import learningProgressRoutes from './routes/learningProgressRoutes.js';
 import { errorMiddleware, notFoundHandler } from './middlewares/errorMiddleware.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swaggerConfig.js';
@@ -66,6 +67,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/categorization', categorizationRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/learning-progress', learningProgressRoutes);
 
 // Debug routes (only enabled in non-production)
 if (env.nodeEnv !== 'production') {

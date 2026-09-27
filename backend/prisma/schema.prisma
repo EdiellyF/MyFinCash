@@ -35,6 +35,7 @@ model User {
   chatMessages   ChatMessage[]
   refreshTokens  RefreshToken[]
   notifications  Notification[]
+  learningProgress LearningProgress?
 
   @@map("users")
 }
@@ -195,4 +196,23 @@ model Notification {
 
   @@index([userId, read])
   @@map("notifications")
+}
+
+// Progresso da trilha "Educação Financeira". Os ids das pílulas, do checklist e
+// dos módulos são strings definidas no frontend, por isso não há chave estrangeira.
+model LearningProgress {
+  id            String   @id @default(uuid())
+  userId        String   @unique @map("user_id")
+  readPills     String[] @default([]) @map("read_pills")
+  passedModules String[] @default([]) @map("passed_modules")
+  skippedModules String[] @default([]) @map("skipped_modules")
+  checklistDone String[] @default([]) @map("checklist_done")
+  checklistRewarded Boolean @default(false) @map("checklist_rewarded")
+  xp            Int      @default(0)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("learning_progress")
 }
