@@ -11,7 +11,7 @@ export function buildAdvancedTransactionsPdf({ title, rows, options = {} }) {
       expense: '#e74c3c',
       text: '#34495e'
     },
-    footer = 'Gerado por FinCash'
+    footer = 'Gerado por MyFinCash'
   } = options;
 
   const doc = new PDFDocument({ margin: 50, size: 'A4' });

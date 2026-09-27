@@ -46,9 +46,9 @@ export async function generateFinancialAdvice(userId, userMessage, conversationH
       } catch (err) {
         // If rate limited by provider, log and try next provider. For non-rate errors
         // also try next provider to be resilient.
-        console.warn(`[FinCash AI] Provider ${candidate} failed:`, err?.message || err);
+        console.warn(`[MyFinCash AI] Provider ${candidate} failed:`, err?.message || err);
         if (isRateLimitError(err)) {
-          console.warn(`[FinCash AI] Provider ${candidate} reported rate limit (429). Trying next provider if available.`);
+          console.warn(`[MyFinCash AI] Provider ${candidate} reported rate limit (429). Trying next provider if available.`);
         }
         // continue loop to try next provider
       }

@@ -57,7 +57,7 @@ export default function AppShell({ children }) {
         </div>
         <div>
           <p className="text-sm font-bold leading-tight text-fincash-ink dark:text-fincash-cream">Finance</p>
-          <p className="text-xs text-fincash-forest font-semibold leading-tight">FinCash</p>
+          <p className="text-xs text-fincash-forest font-semibold leading-tight">MyFinCash</p>
         </div>
       </Link>
       <nav className="flex flex-1 flex-col gap-1">
@@ -109,7 +109,7 @@ export default function AppShell({ children }) {
               <Menu size={20} />
             </button>
             <div className="hidden sm:block">
-              <p className="text-xs font-semibold uppercase tracking-widest text-fincash-forest">FinCash</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-fincash-forest">MyFinCash</p>
               <h1 className="text-lg font-bold text-fincash-ink dark:text-fincash-cream">Financeiro</h1>
             </div>
             <div className="ml-auto flex items-center gap-2">

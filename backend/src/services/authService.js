@@ -50,7 +50,7 @@ function generateSecret() {
 }
 
 function generateUri(secret, email) {
-  const issuer = env.nodeEnv === 'production' ? 'FinCash' : 'FinCash (dev)';
+  const issuer = env.nodeEnv === 'production' ? 'MyFinCash' : 'MyFinCash (dev)';
   if (hasOtplibModernApi) {
     return otplib.generateURI({ secret, label: email, issuer });
   }

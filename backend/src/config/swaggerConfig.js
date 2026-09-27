@@ -4,11 +4,11 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'FinCash API',
+      title: 'MyFinCash API',
       version: '1.0.0',
-      description: 'API documentation for FinCash - Personal Financial Management System',
+      description: 'API documentation for MyFinCash - Personal Financial Management System',
       contact: {
-        name: 'FinCash Team',
+        name: 'MyFinCash Team',
         email: 'support@fincash.com'
       }
     },

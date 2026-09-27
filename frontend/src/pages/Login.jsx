@@ -34,7 +34,7 @@ export default function Login() {
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-fincash-forest text-fincash-cream">
             <TrendingUp size={28} />
           </div>
-          <h1 className="mt-3 text-2xl font-semibold text-fincash-ink">FinCash</h1>
+          <h1 className="mt-3 text-2xl font-semibold text-fincash-ink">MyFinCash</h1>
           <p className="mt-1 text-sm text-fincash-ink/60">Financeiro</p>
         </div>
 

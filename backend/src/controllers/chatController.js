@@ -116,7 +116,7 @@ export async function exportToPdf(req, res) {
     doc.pipe(res);
 
     // Cabeçalho
-    doc.fontSize(20).fillColor('#10B981').text('FinCash - Análise Financeira IA', { align: 'center' });
+    doc.fontSize(20).fillColor('#10B981').text('MyFinCash - Análise Financeira IA', { align: 'center' });
     doc.moveDown();
     doc.fontSize(12).fillColor('#666666').text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, { align: 'center' });
     doc.moveDown(2);
@@ -153,7 +153,7 @@ export async function exportToPdf(req, res) {
     for (let i = 0; i < pageCount; i++) {
       doc.switchToPage(i);
       doc.fontSize(9).fillColor('#999999').text(
-        `Página ${i + 1} de ${pageCount} - FinCash © 2026`,
+        `Página ${i + 1} de ${pageCount} - MyFinCash © 2026`,
         50,
         doc.page.height - 30,
         { align: 'center' }

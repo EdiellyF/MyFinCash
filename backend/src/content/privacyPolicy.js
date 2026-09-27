@@ -1,5 +1,5 @@
 /**
- * Conteúdo da Política de Privacidade do FinCash.
+ * Conteúdo da Política de Privacidade do MyFinCash.
  *
  * Este texto descreve o que o sistema realmente faz. Ao editar, confira
  * contra o código antes de publicar — em especial:
@@ -11,9 +11,9 @@
 export const privacyPolicy = {
   version: '2.0',
   lastUpdated: '2026-09-27',
-  title: 'Política de Privacidade do FinCash',
+  title: 'Política de Privacidade do MyFinCash',
   summary:
-    'O FinCash guarda os seus dados financeiros para que você organize suas contas. Esta política explica, em linguagem simples, o que coletamos, para que usamos, com quem compartilhamos e como você pode exercer seus direitos.',
+    'O MyFinCash guarda os seus dados financeiros para que você organize suas contas. Esta política explica, em linguagem simples, o que coletamos, para que usamos, com quem compartilhamos e como você pode exercer seus direitos.',
 
   sections: [
     {
@@ -23,7 +23,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'O responsável por este tratamento é o projeto FinCash, desenvolvido como programa de extensão do IFTO — Programa de Capacitação em Letramento Financeiro e Inclusão Digital. O tratamento observa a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018, a LGPD).',
+          text: 'O responsável por este tratamento é o projeto MyFinCash, desenvolvido como programa de extensão do IFTO — Programa de Capacitação em Letramento Financeiro e Inclusão Digital. O tratamento observa a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018, a LGPD).',
         },
       ],
     },
@@ -35,7 +35,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'A LGPD permite tratar dados pessoais desde que exista uma base legal. O FinCash se apoia nestas:',
+          text: 'A LGPD permite tratar dados pessoais desde que exista uma base legal. O MyFinCash se apoia nestas:',
         },
         {
           type: 'list',
@@ -59,7 +59,7 @@ export const privacyPolicy = {
           title: 'Dados que você informa',
           items: [
             'Nome e e-mail, para identificar a conta e recuperar o acesso.',
-            'Senha, guardada apenas como hash bcrypt. O FinCash nunca armazena a senha em texto legível, e nem nós conseguimos recuperá-la.',
+            'Senha, guardada apenas como hash bcrypt. O MyFinCash nunca armazena a senha em texto legível, e nem nós conseguimos recuperá-la.',
             'Foto de perfil, apenas se você enviar.',
           ],
         },
@@ -79,7 +79,7 @@ export const privacyPolicy = {
           type: 'group',
           title: 'Arquivos que você pode enviar',
           items: [
-            'Extratos bancários ou de cartão em PDF, usados para extrair transações. O arquivo é processado em memória e não é gravado em disco pelo FinCash.',
+            'Extratos bancários ou de cartão em PDF, usados para extrair transações. O arquivo é processado em memória e não é gravado em disco pelo MyFinCash.',
           ],
         },
         {
@@ -124,7 +124,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'O assistente financeiro e a extração de transações de PDF usam serviços de inteligência artificial de terceiros. Isso significa que parte do que você escreve e parte dos seus dados financeiros saem do FinCash.',
+          text: 'O assistente financeiro e a extração de transações de PDF usam serviços de inteligência artificial de terceiros. Isso significa que parte do que você escreve e parte dos seus dados financeiros saem do MyFinCash.',
         },
         {
           type: 'list',
@@ -137,11 +137,11 @@ export const privacyPolicy = {
         {
           type: 'callout',
           tone: 'terracotta',
-          text: 'Atenção: esses provedores podem processar os dados em servidores fora do Brasil. Eles atuam como operadores junto ao FinCash e não podem usar suas informações para finalidade comercial.',
+          text: 'Atenção: esses provedores podem processar os dados em servidores fora do Brasil. Eles atuam como operadores junto ao MyFinCash e não podem usar suas informações para finalidade comercial.',
         },
         {
           type: 'p',
-          text: 'Se preferir não enviar seus dados a provedores externos, você pode não usar esses dois recursos. O restante do FinCash — transações, metas, orçamentos, relatórios e trilha de Educação Financeira — funciona normalmente sem eles.',
+          text: 'Se preferir não enviar seus dados a provedores externos, você pode não usar esses dois recursos. O restante do MyFinCash — transações, metas, orçamentos, relatórios e trilha de Educação Financeira — funciona normalmente sem eles.',
         },
       ],
     },
@@ -153,7 +153,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'O FinCash não vende seus dados pessoais e não os usa para publicidade.',
+          text: 'O MyFinCash não vende seus dados pessoais e não os usa para publicidade.',
         },
         {
           type: 'group',
@@ -197,7 +197,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'O FinCash não usa cookies de publicidade nem rastreadores de terceiros.',
+          text: 'O MyFinCash não usa cookies de publicidade nem rastreadores de terceiros.',
         },
         {
           type: 'p',
@@ -215,7 +215,7 @@ export const privacyPolicy = {
           type: 'list',
           items: [
             'Senhas, códigos de backup e tokens de sessão são guardados apenas como hash bcrypt, e nunca em texto legível.',
-            'A comunicação entre o seu navegador e o FinCash usa HTTPS.',
+            'A comunicação entre o seu navegador e o MyFinCash usa HTTPS.',
             'O acesso aos seus dados exige autenticação: a sua senha e, se você ativar, um código do seu aplicativo autenticador.',
             'O acesso interno aos dados é restrito à equipe de desenvolvimento e restrito ao necessário para operar o sistema.',
             'Cada requisição de inteligência artificial é registrada e há limite diário de uso por conta, para reduzir a exposição de dados.',
@@ -223,7 +223,7 @@ export const privacyPolicy = {
         },
         {
           type: 'p',
-          text: 'Nenhum sistema é totalmente imune a incidentes. Se ocorrer algo que afete seus dados, o FinCash avisará você e a Autoridade Nacional de Proteção de Dados (ANPD), conforme determina a LGPD.',
+          text: 'Nenhum sistema é totalmente imune a incidentes. Se ocorrer algo que afete seus dados, o MyFinCash avisará você e a Autoridade Nacional de Proteção de Dados (ANPD), conforme determina a LGPD.',
         },
       ],
     },
@@ -331,7 +331,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'O FinCash é voltado a pessoas adultas. O público principal são estudantes universitários e jovens adultos.',
+          text: 'O MyFinCash é voltado a pessoas adultas. O público principal são estudantes universitários e jovens adultos.',
         },
         {
           type: 'p',
@@ -347,7 +347,7 @@ export const privacyPolicy = {
       blocks: [
         {
           type: 'p',
-          text: 'Esta política pode ser atualizada. Quando houver mudança relevante, o FinCash avisará você dentro do sistema, por e-mail ou por aviso na tela inicial, indicando o que mudou e a data da nova versão.',
+          text: 'Esta política pode ser atualizada. Quando houver mudança relevante, o MyFinCash avisará você dentro do sistema, por e-mail ou por aviso na tela inicial, indicando o que mudou e a data da nova versão.',
         },
         {
           type: 'p',

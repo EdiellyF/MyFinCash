@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
             </div>
             <div>
               <p className="text-sm font-semibold leading-tight text-fincash-ink dark:text-fincash-cream">Finance</p>
-              <p className="text-xs font-semibold leading-tight text-fincash-forest">FinCash</p>
+              <p className="text-xs font-semibold leading-tight text-fincash-forest">MyFinCash</p>
             </div>
           </Link>
           <Link
