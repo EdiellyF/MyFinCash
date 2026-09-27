@@ -4,9 +4,25 @@ import { useNotifications } from '../contexts/NotificationContext';
 import { formatRelativeTime } from '../utils/format';
 
 export default function NotificationBell() {
-  const { unreadCount, notifications, markAsRead, markAllAsRead, loadNotifications } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  
+  // Handle case where context might not be available
+  let notificationData;
+  try {
+    notificationData = useNotifications();
+  } catch (error) {
+    console.error('Notification context not available:', error);
+    notificationData = {
+      unreadCount: 0,
+      notifications: [],
+      markAsRead: () => {},
+      markAllAsRead: () => {},
+      loadNotifications: () => {},
+    };
+  }
+  
+  const { unreadCount = 0, notifications = [], markAsRead = () => {}, markAllAsRead = () => {}, loadNotifications = () => {} } = notificationData;
 
   useEffect(() => {
     function handleClickOutside(event) {

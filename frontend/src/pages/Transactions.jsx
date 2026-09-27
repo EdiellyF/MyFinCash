@@ -25,6 +25,7 @@ export default function Transactions() {
   const [filters, setFilters] = useState({ type: '', categoryId: '', startDate: '', endDate: '' });
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { register, handleSubmit, reset } = useForm({ defaultValues: emptyForm });
 
@@ -34,15 +35,33 @@ export default function Transactions() {
   }, []);
 
   async function loadCategories() {
-    const { data } = await api.get('/categories');
-    setCategories(data.data);
+    try {
+      setLoading(true);
+      const { data } = await api.get('/categories');
+      const categoriesData = data.data || data;
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+      setCategories([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function loadTransactions(query = filters) {
-    const params = new URLSearchParams();
-    Object.entries(query).forEach(([key, value]) => value && params.append(key, value));
-    const { data } = await api.get(`/transactions?${params.toString()}`);
-    setTransactions(data.data);
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      Object.entries(query).forEach(([key, value]) => value && params.append(key, value));
+      const { data } = await api.get(`/transactions?${params.toString()}`);
+      const transactionsData = data.data || data;
+      setTransactions(Array.isArray(transactionsData) ? transactionsData : []);
+    } catch (error) {
+      console.error('Error loading transactions:', error);
+      setTransactions([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleNew() {
@@ -68,15 +87,17 @@ export default function Transactions() {
     try {
       if (editing) {
         const { data } = await api.put(`/transactions/${editing.id}`, values);
-        if (data.data.budgetAlert) {
-          toast.warning(`Limite excedido em ${data.data.budgetAlert.category}.`);
+        const responseData = data.data || data;
+        if (responseData.budgetAlert) {
+          toast.warning(`Limite excedido em ${responseData.budgetAlert.category}.`);
         } else {
           toast.success('Transação atualizada.');
         }
       } else {
         const { data } = await api.post('/transactions', values);
-        if (data.data.budgetAlert) {
-          toast.warning(`Limite excedido em ${data.data.budgetAlert.category}.`);
+        const responseData = data.data || data;
+        if (responseData.budgetAlert) {
+          toast.warning(`Limite excedido em ${responseData.budgetAlert.category}.`);
         } else {
           toast.success('Transação criada.');
         }
@@ -117,7 +138,7 @@ export default function Transactions() {
           </select>
           <select value={filters.categoryId} onChange={(e) => setFilters({ ...filters, categoryId: e.target.value })}>
             <option value="">Todas as categorias</option>
-            {categories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+            {Array.isArray(categories) && categories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
           </select>
           <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} />
           <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} />
