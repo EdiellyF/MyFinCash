@@ -234,7 +234,7 @@ export default function Education() {
           <div className="space-y-1.5">
             <p className="text-xs leading-relaxed text-fincash-ink/70 dark:text-fincash-cream/70">{DISCLAIMER}</p>
             <p className="text-xs text-fincash-ink/50 dark:text-fincash-cream/50">
-              Produzido pelo Grupo 2 — Programa de Capacitação em Letramento Financeiro e Inclusão Digital · IFTO
+                Programa de Capacitação em Letramento Financeiro e Inclusão Digital · IFTO
             </p>
           </div>
         </footer>
