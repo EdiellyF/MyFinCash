@@ -214,7 +214,8 @@ export async function sendMessageStream(req, res) {
     });
 
     // Enviar via WebSocket em streaming
-    const io = global.io;
+    const { getIO } = await import('../services/notificationService.js');
+    const io = getIO();
     if (!io || !socketId) {
       return res.status(400).json({ message: 'WebSocket não disponível.' });
     }

@@ -6,6 +6,7 @@ import {
   BarChart2, User, GraduationCap, TrendingUp, LogOut, Menu, MessageSquare
 } from 'lucide-react';
 import { useState } from 'react';
+import NotificationBell from '../NotificationBell.jsx';
 
 const links = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -112,6 +113,7 @@ export default function AppShell({ children }) {
               <h1 className="text-lg font-bold text-fincash-ink dark:text-fincash-cream">Financeiro</h1>
             </div>
             <div className="ml-auto flex items-center gap-2">
+              <NotificationBell />
               <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="rounded-sm border border-fincash-ink/10 p-2.5 text-fincash-ink transition hover:bg-fincash-ink/5 dark:border-fincash-cream/10 dark:text-fincash-cream dark:hover:bg-fincash-cream/5"

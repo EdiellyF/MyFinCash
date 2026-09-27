@@ -1,8 +1,10 @@
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken';
 import app from './app.js';
 import { env } from './config/env.js';
 import { logger } from './config/logger.js';
+import { setIO } from './services/notificationService.js';
 
 const httpServer = createServer(app);
 
@@ -13,14 +15,36 @@ const io = new Server(httpServer, {
   },
 });
 
-// Tornar io disponível globalmente para uso em controllers
-global.io = io;
+// Set IO instance for notification service
+setIO(io);
+
+// Socket.IO authentication middleware
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  
+  if (!token) {
+    return next(new Error('Authentication error: Token not provided'));
+  }
+
+  try {
+    const payload = jwt.verify(token, env.jwtSecret);
+    socket.userId = payload.userId;
+    next();
+  } catch (err) {
+    next(new Error('Authentication error: Invalid token'));
+  }
+});
 
 io.on('connection', (socket) => {
-  logger.info(`WebSocket client connected`, { socketId: socket.id });
+  const userId = socket.userId;
+  
+  logger.info(`WebSocket client connected`, { socketId: socket.id, userId });
+
+  // Join user-specific room for notifications
+  socket.join(`user:${userId}`);
 
   socket.on('disconnect', () => {
-    logger.info(`WebSocket client disconnected`, { socketId: socket.id });
+    logger.info(`WebSocket client disconnected`, { socketId: socket.id, userId });
   });
 });
 

@@ -1,6 +1,7 @@
 import { prisma } from '../config/db.js';
 import { NotFoundError, ValidationError } from '../utils/errors.js';
 import { logger } from '../config/logger.js';
+import { createNotification } from './notificationService.js';
 
 async function ensureCategoryOwnership(userId, categoryId) {
   const category = await prisma.category.findFirst({
@@ -52,6 +53,21 @@ async function calculateBudgetAlert(userId, payload, ignoreTransactionId = null)
   const currentSpent = transactions.reduce((sum, item) => sum + Number(item.amount), 0);
   const projected = currentSpent + Number(payload.amount);
   const limit = Number(budget.limitAmount);
+
+  // Check if budget was already exceeded before this transaction
+  const wasExceeded = currentSpent > limit;
+  const willBeExceeded = projected > limit;
+
+  if (willBeExceeded && !wasExceeded) {
+    // Budget just exceeded - trigger notification
+    await createNotification(
+      userId,
+      'budget_exceeded',
+      'Orçamento Estourado! ⚠️',
+      `Você ultrapassou o limite de R$ ${limit.toFixed(2)} para a categoria "${budget.category.name}" em ${month}/${year}. Gasto atual: R$ ${projected.toFixed(2)}.`,
+      { budgetId: budget.id, categoryId: budget.categoryId, month, year }
+    );
+  }
 
   if (projected > limit) {
     logger.warn('Budget limit exceeded', { 
