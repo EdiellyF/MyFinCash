@@ -18,12 +18,42 @@ async function ensureCategoryOwnership(userId, categoryId) {
   return category;
 }
 
-async function calculateBudgetAlert(userId, payload, ignoreTransactionId = null) {
+// Mesma janela usada por budgetService.monthDateRange: o front envia a data como
+// string nua ("2026-09-01"), que o JS grava como meia-noite UTC. Filtrar por
+// hora local deslocaria a fronteira do mês em relação à tela de Orçamentos.
+function monthWindow(year, month) {
+  return {
+    gte: new Date(Date.UTC(year, month - 1, 1)),
+    lt: new Date(Date.UTC(year, month, 1)),
+  };
+}
+
+async function sumSpent(userId, categoryId, window, excludeTransactionId = null) {
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      userId,
+      categoryId,
+      type: 'expense',
+      transactionDate: { gte: window.gte, lt: window.lt },
+      ...(excludeTransactionId ? { NOT: { id: excludeTransactionId } } : {}),
+    }
+  });
+
+  return transactions.reduce((sum, item) => sum + Number(item.amount), 0);
+}
+
+// previousAmount: valor da versão anterior desta transação, quando ela já estava
+// na mesma categoria/mês e está sendo substituída por este lançamento. Entra no
+// total anterior para que editar uma transação que já estourou o orçamento não
+// dispare um segundo alerta; em create, é 0 e o total anterior é a soma da janela.
+async function calculateBudgetAlert(userId, payload, options = {}) {
+  const { excludeTransactionId = null, previousAmount = 0 } = options;
+
   if (payload.type !== 'expense') return null;
 
   const date = new Date(payload.transactionDate);
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+  const month = date.getUTCMonth() + 1;
+  const year = date.getUTCFullYear();
 
   const budget = await prisma.budget.findFirst({
     where: {
@@ -37,25 +67,14 @@ async function calculateBudgetAlert(userId, payload, ignoreTransactionId = null)
 
   if (!budget) return null;
 
-  const monthStart = new Date(year, month - 1, 1);
-  const monthEnd = new Date(year, month, 0, 23, 59, 59);
-
-  const transactions = await prisma.transaction.findMany({
-    where: {
-      userId,
-      categoryId: payload.categoryId,
-      type: 'expense',
-      transactionDate: { gte: monthStart, lte: monthEnd },
-      ...(ignoreTransactionId ? { NOT: { id: ignoreTransactionId } } : {})
-    }
-  });
-
-  const currentSpent = transactions.reduce((sum, item) => sum + Number(item.amount), 0);
+  const currentSpent = await sumSpent(userId, payload.categoryId, monthWindow(year, month), excludeTransactionId);
+  const spentBefore = currentSpent + previousAmount;
   const projected = currentSpent + Number(payload.amount);
   const limit = Number(budget.limitAmount);
 
-  // Check if budget was already exceeded before this transaction
-  const wasExceeded = currentSpent > limit;
+  // Só dispara na transição real de "dentro do limite" para "estourado",
+  // usando o total que o usuário já via antes da operação.
+  const wasExceeded = spentBefore > limit;
   const willBeExceeded = projected > limit;
 
   if (willBeExceeded && !wasExceeded) {
@@ -177,7 +196,20 @@ export async function updateTransaction(userId, id, data) {
   }
 
   await ensureCategoryOwnership(userId, data.categoryId);
-  const budgetAlert = await calculateBudgetAlert(userId, data, id);
+
+  // "Anterior" = o gasto que o usuário já via. Só entra na conta se a transação
+  // antiga já estava na mesma categoria e no mesmo mês do novo registro; se foi
+  // movida de lugar, o total anterior é apenas a soma dos demais.
+  const previousDate = new Date(existing.transactionDate);
+  const sameWindow =
+    existing.categoryId === data.categoryId &&
+    previousDate.getUTCFullYear() === new Date(data.transactionDate).getUTCFullYear() &&
+    previousDate.getUTCMonth() === new Date(data.transactionDate).getUTCMonth();
+
+  const budgetAlert = await calculateBudgetAlert(userId, data, {
+    excludeTransactionId: id,
+    previousAmount: sameWindow && existing.type === 'expense' ? Number(existing.amount) : 0,
+  });
 
   const transaction = await prisma.transaction.update({
     where: { id },
