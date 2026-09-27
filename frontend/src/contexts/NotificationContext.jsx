@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { toast } from 'sonner';
 import { useAuth } from '../hooks/useAuth';
-import api from '../lib/api';
+import api from '../services/api';
 
 const NotificationContext = createContext(null);
 
